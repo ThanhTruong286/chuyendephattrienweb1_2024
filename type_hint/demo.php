@@ -160,4 +160,4 @@ class Demo {
 }
 
 $demo = new Demo();
-$demo->typeNULLReturnNULL();
+$demo->typeBReturnA();
