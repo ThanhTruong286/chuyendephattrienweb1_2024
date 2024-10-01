@@ -6,6 +6,7 @@ require_once 'function.php';
 $userModel = new UserModel();
 $user = NULL;
 $_id = NULL;
+$errors = [];
 
 if (!empty($_GET['id'])) {
     // Giải mã ID từ URL
@@ -29,12 +30,33 @@ if (!empty($_GET['id'])) {
 
 // Xử lý cập nhật hoặc thêm mới người dùng
 if (!empty($_POST['submit'])) {
-    if (!empty($_id)) {
-        $userModel->updateUser($_POST); // Cập nhật người dùng nếu ID hợp lệ
-    } else {
-        $userModel->insertUser($_POST); // Tạo người dùng mới
+    // Validate dữ liệu
+    $name = trim($_POST['name']);
+    $password = $_POST['password'];
+
+    // Kiểm tra Name
+    if (empty($name)) {
+        $errors[] = "Tên đăng nhập bắt buộc";
+    } elseif (!preg_match("/^[a-zA-Z0-9]{5,15}$/", $name)) {
+        $errors[] = "Gồm 5 đến 15 ký tự, là ký tự hợp lệ: A->Z, a->z, 0->9";
     }
-    header('location: list_users.php');
+
+    // Kiểm tra Password
+    if (empty($password)) {
+        $errors[] = "Mật khẩu là bắt buộc";
+    } elseif (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~!@#$%^&*()])[A-Za-z\d~!@#$%^&*()]{5,10}$/", $password)) {
+        $errors[] = "Mật khẩu phải bao gồm: chữ thường(a->z), chữ hoa (A->Z), số (0->9) và ký tự đặc biệt: (~!@#$%^&*()).";
+    }
+
+    // Nếu không có lỗi thì cập nhật hoặc thêm mới người dùng
+    if (empty($errors)) {
+        if (!empty($_id)) {
+            $userModel->updateUser($_POST); // Cập nhật người dùng nếu ID hợp lệ
+        } else {
+            $userModel->insertUser($_POST); // Tạo người dùng mới
+        }
+        header('location: list_users.php');
+    }
 }
 ?>
 
@@ -46,6 +68,15 @@ if (!empty($_POST['submit'])) {
 </head>
 <body>
     <?php include 'views/header.php'?>
+    <div class="container">
+        
+        <script type="text/javascript">
+            <?php if (!empty($errors)) { ?>
+                let errorMessages = <?php echo json_encode($errors); ?>;
+                alert(errorMessages.join("\n"));
+            <?php } ?>
+        </script>
+        
     <div class="container">
 
             <?php if ($user || !isset($_id)) { ?>
