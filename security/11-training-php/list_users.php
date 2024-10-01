@@ -3,6 +3,8 @@
 session_start();
 
 require_once 'models/UserModel.php';
+require_once 'function.php';
+
 $userModel = new UserModel();
 
 $params = [];
@@ -50,13 +52,15 @@ $users = $userModel->getUsers($params);
                                 <?php echo $user['type']?>
                             </td>
                             <td>
-                                <a href="form_user.php?id=<?php echo $user['id'] ?>">
+                                <?php $encryptedId = encryptId($user['id'])?>
+                                <a href="form_user.php?id=<?php echo $encryptedId ?>">
                                     <i class="fa fa-pencil-square-o" aria-hidden="true" title="Update"></i>
                                 </a>
                                 <a href="view_user.php?id=<?php echo $user['id'] ?>">
                                     <i class="fa fa-eye" aria-hidden="true" title="View"></i>
                                 </a>
-                                <a href="delete_user.php?id=<?php echo $user['id'] ?>">
+                                <!-- Dán token vào url -->
+                                <a href="delete_user.php?id=<?php echo $encryptedId; ?>">
                                     <i class="fa fa-eraser" aria-hidden="true" title="Delete"></i>
                                 </a>
                             </td>

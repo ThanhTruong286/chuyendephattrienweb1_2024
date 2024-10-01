@@ -3,6 +3,7 @@
 session_start();
 
 require_once 'models/UserModel.php';
+require_once 'function.php';
 $userModel = new UserModel();
 
 
@@ -13,15 +14,17 @@ if (!empty($_POST['submit'])) {
     ];
     $user = NULL;
     if ($user = $userModel->auth($users['username'], $users['password'])) {
-        //Login successful
-        $_SESSION['id'] = $user[0]['id'];
-
+        // Login successful
+        $_SESSION['id'] = encryptId($user[0]['id']); // Mã hóa ID và lưu vào session
+        $_SESSION['user_type'] = $user[0]['type']; // Lưu loại tài khoản (admin hoặc user) vào session
+    
         $_SESSION['message'] = 'Login successful';
         header('location: list_users.php');
-    }else {
-        //Login failed
+    } else {
+        // Login failed
         $_SESSION['message'] = 'Login failed';
     }
+    
 
 }
 
