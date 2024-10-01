@@ -5,25 +5,25 @@ require_once 'function.php';
 
 $userModel = new UserModel();
 $user = NULL;
-$_id = NULL;
+$ID = NULL;
 $errors = [];
 
 if (!empty($_GET['id'])) {
     // Giải mã ID từ URL
     $encryptedId = $_GET['id'];
-    $_id = decryptId($encryptedId);
+    $ID = decryptId($encryptedId);
 
-    if ($_id) {
+    if ($ID) {
         // Kiểm tra quyền hạn
-        if ($_SESSION['user_type'] !== 'admin' && $_id != decryptId($_SESSION['id'])) {
+        if ($ID != decryptId($_SESSION['id'])) {
             // Nếu không phải admin và ID không khớp với ID người dùng hiện tại, chặn truy cập
-            echo "Access denied!";
+            echo "Không phải chính chủ";
             exit;
         }
-        $user = $userModel->findUserById($_id); // Tìm kiếm người dùng bằng ID đã giải mã
+        $user = $userModel->findUserById($ID); // Tìm kiếm người dùng bằng ID đã giải mã
     } else {
         // Nếu ID không hợp lệ, trả về trang lỗi hoặc thông báo
-        echo "Invalid ID";
+        echo "ID không hợp lệ";
         exit;
     }
 }
@@ -50,12 +50,13 @@ if (!empty($_POST['submit'])) {
 
     // Nếu không có lỗi thì cập nhật hoặc thêm mới người dùng
     if (empty($errors)) {
-        if (!empty($_id)) {
+        if (!empty($ID)) {
             $userModel->updateUser($_POST); // Cập nhật người dùng nếu ID hợp lệ
         } else {
+            
             $userModel->insertUser($_POST); // Tạo người dùng mới
         }
-        header('location: list_users.php');
+        header('location: login.php');
     }
 }
 ?>
@@ -70,6 +71,7 @@ if (!empty($_POST['submit'])) {
     <?php include 'views/header.php'?>
     <div class="container">
         
+        <!-- Hiện thông báo lỗi bằng hàm alert() -->
         <script type="text/javascript">
             <?php if (!empty($errors)) { ?>
                 let errorMessages = <?php echo json_encode($errors); ?>;
@@ -79,12 +81,12 @@ if (!empty($_POST['submit'])) {
         
     <div class="container">
 
-            <?php if ($user || !isset($_id)) { ?>
+            <?php if ($user || !isset($ID)) { ?>
                 <div class="alert alert-warning" role="alert">
                     User form
                 </div>
                 <form method="POST">
-                    <input type="hidden" name="id" value="<?php echo $_id ?>">
+                    <input type="hidden" name="id" value="<?php echo $ID ?>">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input class="form-control" name="name" placeholder="Name" value='<?php if (!empty($user[0]['name'])) echo $user[0]['name'] ?>'>
