@@ -3,6 +3,7 @@
 session_start();
 
 require_once 'models/UserModel.php';
+require_once 'function.php';
 $userModel = new UserModel();
 
 $params = [];
@@ -50,7 +51,8 @@ $users = $userModel->getUsers($params);
                                 <?php echo $user['type']?>
                             </td>
                             <td>
-                                <a href="form_user.php?id=<?php echo $user['id'] ?>">
+                                <?php $encryptedId = encryptId($user['id'])?>
+                                <a href="form_user.php?id=<?php echo $encryptedId ?>">
                                     <i class="fa fa-pencil-square-o" aria-hidden="true" title="Update"></i>
                                 </a>
                                 <a href="view_user.php?id=<?php echo $user['id'] ?>">

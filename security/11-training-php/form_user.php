@@ -1,29 +1,43 @@
 <?php
-// Start the session
 session_start();
 require_once 'models/UserModel.php';
-$userModel = new UserModel();
+require_once 'function.php'; 
 
-$user = NULL; //Add new user
+$userModel = new UserModel();
+$user = NULL;
 $_id = NULL;
 
 if (!empty($_GET['id'])) {
-    $_id = $_GET['id'];
-    $user = $userModel->findUserById($_id);//Update existing user
+    // Giải mã ID từ URL
+    $encryptedId = $_GET['id'];
+    $_id = decryptId($encryptedId);
+
+    if ($_id) {
+        // Kiểm tra quyền hạn
+        if ($_SESSION['user_type'] !== 'admin' && $_id != decryptId($_SESSION['id'])) {
+            // Nếu không phải admin và ID không khớp với ID người dùng hiện tại, chặn truy cập
+            echo "Access denied!";
+            exit;
+        }
+        $user = $userModel->findUserById($_id); // Tìm kiếm người dùng bằng ID đã giải mã
+    } else {
+        // Nếu ID không hợp lệ, trả về trang lỗi hoặc thông báo
+        echo "Invalid ID";
+        exit;
+    }
 }
 
-
+// Xử lý cập nhật hoặc thêm mới người dùng
 if (!empty($_POST['submit'])) {
-
     if (!empty($_id)) {
-        $userModel->updateUser($_POST);
+        $userModel->updateUser($_POST); // Cập nhật người dùng nếu ID hợp lệ
     } else {
-        $userModel->insertUser($_POST);
+        $userModel->insertUser($_POST); // Tạo người dùng mới
     }
     header('location: list_users.php');
 }
-
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
