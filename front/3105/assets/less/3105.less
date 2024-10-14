@@ -88,7 +88,7 @@
                                 color: @footer-title-color;
                             }
 
-                            .showroom-content-description > p {
+                            .showroom-content-description>p {
                                 color: @footer-text-color;
                                 line-height: 24px;
                                 font-size: 13px;
@@ -142,6 +142,7 @@
                         max-width: 100%;
                         padding: 11px 50px 11px 11px;
                         width: 100%;
+                        padding-right: 100px;
                     }
 
                     #email:focus {
@@ -198,6 +199,8 @@
                     }
 
                     .enter-your-email {
+                        display: flex;
+                        align-items: center;
                         float: left;
                         position: relative;
                         width: 100%;
@@ -206,9 +209,22 @@
 
                         .input-wrapper {
                             overflow: hidden;
+
+                            .icon {
+                                position: absolute;
+                                left: 10px;
+                                /* Khoảng cách từ bên trái của input */
+                                top: 50%;
+                                transform: translateY(-50%);
+                                /* Căn giữa icon theo chiều dọc */
+                                color: #0000;
+                            }
                         }
 
                         .newsletter-submit {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
                             position: absolute;
                             background-color: @footer-link-hover-color;
                             border-color: @footer-link-hover-color;
@@ -221,6 +237,19 @@
                             top: 6px;
                             right: 4px;
                             transition: 0.3s all ease-out;
+                        }
+
+                        .newsletter-submit i {
+                            position: absolute;
+                            top: 50%;
+                            /* Đẩy icon xuống giữa theo chiều dọc */
+                            left: 50%;
+                            /* Đẩy icon qua giữa theo chiều ngang */
+                            transform: translate(-50%, -50%);
+                            /* Căn chỉnh icon chính xác vào giữa */
+                            font-size: 16px;
+                            /* Điều chỉnh kích thước icon nếu cần */
+                            color: #fff;
                         }
 
                         .btn-primary {
