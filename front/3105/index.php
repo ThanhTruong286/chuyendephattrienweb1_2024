@@ -159,11 +159,17 @@
                                             <div class="enter-your-email">
                                                 <div class="newsletter-submit">
                                                     <input type="submit" class="btn btn-primary pull-xs-right">
+                                                    <input class="btn btn-primary pull-xs-right hidden-sm-up hidden-xs-down" name="submitNewsletter"type="submit"value="OK">
                                                 </div>
                                                 <div class="input-wrapper">
                                                     <input id="email" type="text" placeholder="Enter your email...">
                                                 </div>
+                                                <input type="hidden"name="action"value="0">
+                                                <div class="clearfix">
+
+                                                </div>
                                             </div>
+                                            <div class="col-xs-12"></div>
                                         </div>
                                     </form>
                                 </div>
