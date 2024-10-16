@@ -71,7 +71,7 @@
   white-space: nowrap;
   color: #454545;
 }
-#footer .footer-container .container .row .row .showroom-item .showroom-content .showroom-content-description > p {
+#footer .footer-container .container .row .row .showroom-item .showroom-content .showroom-content-description>p {
   color: #888;
   line-height: 24px;
   font-size: 13px;
@@ -112,6 +112,7 @@
   max-width: 100%;
   padding: 11px 50px 11px 11px;
   width: 100%;
+  padding-right: 100px;
 }
 #footer .footer-container .container .footer-top .footer-top-item #email:focus {
   border-color: #F9B002;
@@ -159,6 +160,8 @@
   transition-duration: 0.3s;
 }
 #footer .footer-container .container .footer-top .footer-top-item .enter-your-email {
+  display: flex;
+  align-items: center;
   float: left;
   position: relative;
   width: 100%;
@@ -168,7 +171,17 @@
 #footer .footer-container .container .footer-top .footer-top-item .enter-your-email .input-wrapper {
   overflow: hidden;
 }
+#footer .footer-container .container .footer-top .footer-top-item .enter-your-email .input-wrapper .icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #000 0;
+}
 #footer .footer-container .container .footer-top .footer-top-item .enter-your-email .newsletter-submit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   background-color: #F9B002;
   border-color: #F9B002;
@@ -181,6 +194,14 @@
   top: 6px;
   right: 4px;
   transition: 0.3s all ease-out;
+}
+#footer .footer-container .container .footer-top .footer-top-item .enter-your-email .newsletter-submit i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  font-size: 16px;
+  color: #fff;
 }
 #footer .footer-container .container .footer-top .footer-top-item .enter-your-email .btn-primary {
   padding-right: 15px !important;
